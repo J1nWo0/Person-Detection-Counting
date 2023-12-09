@@ -45,5 +45,5 @@ thop>=0.1.1  # FLOPs computation
 # roboflow
 
 # Human Tracker Dependencies --------------------
-opencv-python==4.5.3.56
-cvzone==1.5.1
+opencv-python
+cvzone
