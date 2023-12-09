@@ -16,7 +16,7 @@ class Algorithm_Detection:
         while True:
             ret, frame = cap.read()
             if ret:
-                results = model.track(frame, persist=True, conf=0.5)
+                results = model.track(frame, persist=True, conf=0.5, classes=[0])
 
                 frame_ = results[0].plot()
 
