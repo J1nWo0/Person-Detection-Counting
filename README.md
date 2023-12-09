@@ -12,3 +12,6 @@ Real-Time Tracking - The system operates in real-time, providing instant updates
 Bounding Box Visualization - Human Flow Tracker uses bounding boxes to visually represent individuals, making it easy to interpret and analyze movement patterns.
   
 Customizable Configuration - Easily configure the application by adjusting settings such as video sources, detection thresholds, and tracking parameters.
+
+# Contributing
+We welcome contributions! If you have ideas for improvements, bug fixes, or new features, please open an issue or submit a pull request.
