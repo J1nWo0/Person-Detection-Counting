@@ -33,15 +33,14 @@ Human Flow Tracker is a powerful yet easy-to-use object detection application de
 
 ### Usage
 1. Configure the application:
-
-* Specify the input video source in the configuration files.
-* Adjust detection parameters based on the room's characteristics.
+    - Specify the input video source in the configuration files.
+    - Adjust detection parameters based on the room's characteristics.
 
 2. Run the application:
-
+   
         python main.py
 
-3. Observe real-time human count and tracking information.
+4. Observe real-time human count and tracking information.
 
 
 # Contributing
