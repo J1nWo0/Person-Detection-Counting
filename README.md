@@ -5,13 +5,13 @@ Human Flow Tracker is a powerful yet easy-to-use object detection application de
 
 # Features:
 
-Entrance and Exit Counting - Human Flow Tracker precisely counts the number of people entering and exiting the monitored room.
+**Entrance and Exit Counting** - Human Flow Tracker precisely counts the number of people entering and exiting the monitored room.
   
-Real-Time Tracking - The system operates in real-time, providing instant updates on human flow within the space.
+**Real-Time Tracking** - The system operates in real-time, providing instant updates on human flow within the space.
  
-Bounding Box Visualization - Human Flow Tracker uses bounding boxes to visually represent individuals, making it easy to interpret and analyze movement patterns.
+**Bounding Box Visualization** - Human Flow Tracker uses bounding boxes to visually represent individuals, making it easy to interpret and analyze movement patterns.
   
-Customizable Configuration - Easily configure the application by adjusting settings such as video sources, detection thresholds, and tracking parameters.
+**Customizable Configuration** - Easily configure the application by adjusting settings such as video sources, detection thresholds, and tracking parameters.
 
 # Getting Started
 ### Prerequisites 
