@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 1
+names: ['Persona']
+
+roboflow:
+  workspace: titulacin
+  project: person-detection-9a6mk
+  version: 16
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/titulacin/person-detection-9a6mk/dataset/16
