@@ -41,7 +41,7 @@ class Color:
 
 color = Color()
 tracker = Tracker()
-
+    
 class Algorithm_Count:
     def __init__(self, a1, a2):
         self.people_entering = {}
@@ -51,18 +51,11 @@ class Algorithm_Count:
         self.area1 = a1
         self.area2 = a2
         self.paused = False
+        self.coordinates = []
 
     def center_point(self, a, b):
         c = int((a+b)//2)
         return c
-    
-    def RGB(event, x, y, flags, param):
-        if event == cv2.EVENT_MOUSEMOVE :  
-            colorsBGR = [x, y]
-            print(colorsBGR)
-
-    #cv2.namedWindow('Frame')
-    #cv2.setMouseCallback('Frame', RGB)
 
     def detect(self, frame):
         results = model(frame, conf=0.6, classes=[0])
@@ -158,6 +151,18 @@ class Algorithm_Count:
         
         #print(self.people_entering)
 
+    def mouse_clicked(self, event, x, y, flags, param):
+        if event == cv2.EVENT_LBUTTONDOWN :
+            # Clear the list and append new clicked coordinates
+            self.coordinates.clear()
+            self.coordinates.append((x, y))
+
+    def show_coordinates(self, frame):
+        # Display clicked coordinates
+        for coords in self.coordinates:
+            #coordinates = f'Coordinates: {coords}'
+            x, y = coords
+            cvzone.putTextRect(frame,str(f"X: {x}, Y: {y}"), (120,30), 1,1, color.text1(), color.text2())
 
     def counting(self, video_path):
         cap = cv2.VideoCapture(video_path)
@@ -176,10 +181,11 @@ class Algorithm_Count:
                 #results = model.track(frame, persist=True, conf=0.5)
                 #frame_ = results[0].plot()
 
-                
                 detections = self.detect(frame)
                 self.draw_boxes(frame, detections)
-                
+                self.show_coordinates(frame)
+
+
                 out.write(frame)
                 cv2.imshow('Frame', frame)
 
@@ -195,3 +201,19 @@ class Algorithm_Count:
         cap.release()
         out.release()
         cv2.destroyAllWindows()
+
+a1=[(312,388),(289,390),(474,469),(497,462)]
+a2=[(279,392),(250,397),(423,477),(454,469)]
+#a1 = [(642,371), (626,372), (661,431), (666,413)] 
+#a2 = [(610,364), (592,366), (628,435), (644,432)]
+
+in_video_path = 'Sample Test File\\test_video.mp4'
+
+algo = Algorithm_Count(a1, a2)
+
+cv2.namedWindow('Frame')
+cv2.setMouseCallback('Frame', algo.mouse_clicked)
+
+algo.counting(in_video_path)
+
+
