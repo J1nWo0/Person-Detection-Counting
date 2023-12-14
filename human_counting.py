@@ -53,6 +53,9 @@ class Algorithm_Count:
         self.paused = False
         self.coordinates = []
 
+        cv2.namedWindow('Frame')
+        cv2.setMouseCallback('Frame', self.mouse_clicked)
+
     def center_point(self, a, b):
         c = int((a+b)//2)
         return c
@@ -144,6 +147,9 @@ class Algorithm_Count:
         #cv2.putText(frame,str(f'Exit: {exit}'),(60,148),cv2.FONT_HERSHEY_COMPLEX,(0.7),color.text1(),2)
         cvzone.putTextRect(frame,str(f"Enter: {enter}"), (20,30), 1,1, color.text1(), color.text2())
         cvzone.putTextRect(frame,str(f"Exit: {exit}"), (20,60), 1,1, color.text1(), color.text2())
+
+        
+        #cvzone.putTextRect(frame,str(f"Exit: {exit}"), (20,60), 1,1, color.text1(), color.text2())
         
         
         #print(self.people_entering)
@@ -187,7 +193,8 @@ class Algorithm_Count:
                 cv2.imshow('Frame', frame)
 
             key = cv2.waitKey(1)&0xFF
-            if key == ord('q'): break
+            if key == ord('q') or cv2.getWindowProperty('Frame', cv2.WND_PROP_VISIBLE) < 1: 
+                break
             elif key == ord('p'):
                 self.paused = not self.paused
 
