@@ -144,9 +144,6 @@ class Algorithm_Count:
         #cv2.putText(frame,str(f'Exit: {exit}'),(60,148),cv2.FONT_HERSHEY_COMPLEX,(0.7),color.text1(),2)
         cvzone.putTextRect(frame,str(f"Enter: {enter}"), (20,30), 1,1, color.text1(), color.text2())
         cvzone.putTextRect(frame,str(f"Exit: {exit}"), (20,60), 1,1, color.text1(), color.text2())
-
-        
-        #cvzone.putTextRect(frame,str(f"Exit: {exit}"), (20,60), 1,1, color.text1(), color.text2())
         
         
         #print(self.people_entering)
@@ -201,19 +198,3 @@ class Algorithm_Count:
         cap.release()
         out.release()
         cv2.destroyAllWindows()
-
-a1=[(312,388),(289,390),(474,469),(497,462)]
-a2=[(279,392),(250,397),(423,477),(454,469)]
-#a1 = [(642,371), (626,372), (661,431), (666,413)] 
-#a2 = [(610,364), (592,366), (628,435), (644,432)]
-
-in_video_path = 'Sample Test File\\test_video.mp4'
-
-algo = Algorithm_Count(a1, a2)
-
-cv2.namedWindow('Frame')
-cv2.setMouseCallback('Frame', algo.mouse_clicked)
-
-algo.counting(in_video_path)
-
-
