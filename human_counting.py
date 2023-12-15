@@ -27,8 +27,8 @@ class Color:
         blue = (255,0,0)
         return blue
     def area2(self):
-        blue = (255,0,0)
-        return blue
+        red = (0, 0, 255)
+        return red
     def point(self):
         pink = (255,0,255)
         return pink 
@@ -36,8 +36,8 @@ class Color:
         cyan = (255,255,0)
         return cyan
     def rectangle(self):
-        red = (0,0,255)
-        return red
+        orange = (0,119,255)
+        return orange
 
 color = Color()
 tracker = Tracker()

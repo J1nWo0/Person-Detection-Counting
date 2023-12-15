@@ -70,7 +70,10 @@ class ClickPoints:
         points_array = points_array.reshape((4, 1, 2))
 
         # Draw the box on the image
-        cv2.polylines(self.image, [points_array], isClosed=True, color=(255, 0, 0), thickness=2)
+        if not self.predefined_list:
+            cv2.polylines(self.image, [points_array], isClosed=True, color=(255, 0, 0), thickness=2)
+        else:
+            cv2.polylines(self.image, [points_array], isClosed=True, color=(0, 0, 255), thickness=2)
 
     def save_coordinates(self):
         self.return_coordinates = True
