@@ -1,9 +1,9 @@
 from human_counting import Algorithm_Count
-from human_detection_webcam import *
+from human_detection_webcam import Algorithm_Detection 
 from set_coordinates import ClickPoints 
 
 
-
+'''
 # For Uploading a video files
 a1=[(312,388),(289,390),(474,469),(497,462)]
 a2=[(279,392),(250,397),(423,477),(454,469)]
@@ -47,8 +47,7 @@ else:
 #----------------------------------------------------------------
 '''
 # For see the webcam
-algo = Algorithm_Detection()
+webcam = Algorithm_Detection()
+webcam.detectPeople()
 
-algo.detectPeople()
 
-'''

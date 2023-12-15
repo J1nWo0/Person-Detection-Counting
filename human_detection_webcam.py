@@ -5,25 +5,22 @@ from ultralytics import YOLO
 
 class Algorithm_Detection:
     def detectPeople(self):
-
-        model=YOLO('datasets\weights\\best.pt')
-
-        # start webcam
+        #model = YOLO('datasets\\weights\\best.pt')
+        model = YOLO('yolo-Weights\yolov8n.pt')
         cap = cv2.VideoCapture(0)
-        cap.set(3, 640)
-        cap.set(4, 480)
 
         while True:
             ret, frame = cap.read()
-            if ret:
-                results = model.track(frame, persist=True, conf=0.5, classes=[0])
+            if not ret:
+                break
 
-                frame_ = results[0].plot()
+            frame = cv2.resize(frame, (750, 590))
+            results = model.track(frame, persist=True, conf=0.5)
+            frame = results[0].plot()
+            cv2.imshow('Webcam Detection', frame)
 
-                cv2.imshow('Frame', frame_)
-                if cv2.waitKey(int(25/3)) & 0xFF == ord('q'):
-                    break
-            else: break
+            if cv2.getWindowProperty('Webcam Detection', cv2.WND_PROP_VISIBLE) < 1:
+                break
 
         cap.release()
         cv2.destroyAllWindows()
