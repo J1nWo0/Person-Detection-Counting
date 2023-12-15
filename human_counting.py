@@ -93,7 +93,7 @@ class Algorithm_Count:
         bbox_id = tracker.update(list)
         for bbox in bbox_id:
             x3, y3, x4, y4, id = bbox
-            cx = self.center_point(x3, x3) # may mali
+            cx = self.center_point(x3, x3) # ! may mali dapat x4
             cy = self.center_point(y3, y4)
             label2 = f"{id} Person: {score:.2f}"
 
@@ -136,23 +136,14 @@ class Algorithm_Count:
                     self.exiting.add(id)
 
         cv2.polylines(frame,[np.array(self.area1,np.int32)],True,color.area1(),2)
-        cv2.putText(frame,str('1'),(504,471),cv2.FONT_HERSHEY_COMPLEX,(0.5),color.text2(),1)
+        #cvzone.putTextRect(frame,str('1'), (self.area1[3][0]+5, self.area1[3][1]+2), 1,1, color.text1(), color.text2())
 
         cv2.polylines(frame,[np.array(self.area2,np.int32)],True,color.area2(),2)
-        cv2.putText(frame,str('2'),(466,485),cv2.FONT_HERSHEY_COMPLEX,(0.5),color.text2(),1)
+        #cvzone.putTextRect(frame,str('2'), (self.area2[3][0]+5, self.area2[3][1]+2), 1,1, color.text1(), color.text2())
         enter = len(self.entering)
         exit = len(self.exiting)
-
-        #cv2.putText(frame,str(f'Enter: {enter}'),(60,80),cv2.FONT_HERSHEY_COMPLEX,(0.7),color.text1(),2)
-        #cv2.putText(frame,str(f'Exit: {exit}'),(60,148),cv2.FONT_HERSHEY_COMPLEX,(0.7),color.text1(),2)
         cvzone.putTextRect(frame,str(f"Enter: {enter}"), (20,30), 1,1, color.text1(), color.text2())
         cvzone.putTextRect(frame,str(f"Exit: {exit}"), (20,60), 1,1, color.text1(), color.text2())
-
-        
-        #cvzone.putTextRect(frame,str(f"Exit: {exit}"), (20,60), 1,1, color.text1(), color.text2())
-        
-        
-        #print(self.people_entering)
 
     def mouse_clicked(self, event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN :
