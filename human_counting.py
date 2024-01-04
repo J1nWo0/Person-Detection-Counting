@@ -2,7 +2,7 @@
 import os
 import cv2
 import cvzone
-import pandas as pd
+import time
 import numpy as np
 from ultralytics import YOLO
 from tracker import *
@@ -52,9 +52,9 @@ class Algorithm_Count:
         self.area2 = a2
         self.paused = False
         self.coordinates = []
+        self.start_time = time.time()
 
         cv2.namedWindow('Frame')
-        cv2.setMouseCallback('Frame', self.mouse_clicked)
 
     def center_point(self, a, b):
         c = int((a+b)//2)
@@ -83,18 +83,10 @@ class Algorithm_Count:
                 label1 = f"Person: {score:.2f}"
                 list.append([x1, y1, x2, y2])
                 
-                
-                cx2 = self.center_point(x1, x2)
-                cy2 = self.center_point(y1, y2)
-                #cv2.circle(frame, (cx2, cy2), 4, color.center_point(), -1)
-                
-                
-                
         bbox_id = tracker.update(list)
         for bbox in bbox_id:
             x3, y3, x4, y4, id = bbox
-            cx = self.center_point(x3, x3) # ! may mali dapat x4
-            cy = self.center_point(y3, y4)
+
             label2 = f"{id} Person: {score:.2f}"
 
             if id != -1:
@@ -103,16 +95,14 @@ class Algorithm_Count:
 
             # People going right
             result_p1 = cv2.pointPolygonTest(np.array(self.area2,np.int32), ((x4,y4)), False)
-            result_c1 = cv2.pointPolygonTest(np.array(self.area2,np.int32), ((cx,cy)), False)
-            if result_p1 >= 0 or result_c1 >= 0:
-                self.people_entering[id] = ((x4, y4), (cx, cy)) 
+            if result_p1 >= 0:
+                self.people_entering[id] = (x4, y4) 
                 cv2.rectangle(frame, (x3, y3), (x4, y4), color.boundingBox2(), 2)
                 cvzone.putTextRect(frame, label2, (x3+10, y3-10), 1,1, color.text1(), color.text2()) 
                 #cv2.putText(frame, label2, (x3, y3 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color.text1(), 2)
             if id in self.people_entering:
                 result_p2 = cv2.pointPolygonTest(np.array(self.area1,np.int32), ((x4,y4)), False)
-                result_c2 = cv2.pointPolygonTest(np.array(self.area1,np.int32), ((cx,cy)), False)
-                if result_p2 >= 0 or result_c2 >= 0:
+                if result_p2 >= 0:
                     cv2.rectangle(frame, (x3, y3), (x4, y4), color.boundingBox1(), 2)
                     cv2.circle(frame, (x4, y4), 4, color.point(), -1)  
                     #cv2.putText(frame, label2, (x3, y3 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color.text1(), 2)
@@ -120,15 +110,13 @@ class Algorithm_Count:
                     self.entering.add(id)
             # People going left
             result_p3 = cv2.pointPolygonTest(np.array(self.area1,np.int32), ((x4,y4)), False)
-            result_c3 = cv2.pointPolygonTest(np.array(self.area2,np.int32), ((cx,cy)), False)
-            if result_p3 >= 0 or result_c3 >= 0:
-                self.people_exiting[id] = ((x4, y4), (cx, cy)) 
+            if result_p3 >= 0:
+                self.people_exiting[id] = (x4, y4) 
                 cv2.rectangle(frame, (x3, y3), (x4, y4), color.boundingBox1(), 2)
                 cvzone.putTextRect(frame, label2, (x3+10, y3-10), 1,1, color.text1(), color.text2()) 
             if id in self.people_exiting:
                 result_p4 = cv2.pointPolygonTest(np.array(self.area2,np.int32), ((x4,y4)), False)
-                result_c4 = cv2.pointPolygonTest(np.array(self.area2,np.int32), ((cx,cy)), False)  
-                if result_p4 >= 0 or result_c4 >= 0:
+                if result_p4 >= 0:
                     cv2.rectangle(frame, (x3, y3), (x4, y4), color.boundingBox2(), 2)
                     cv2.circle(frame, (x4, y4), 4, color.point(), -1)  
                     #cv2.putText(frame, label2, (x3, y3 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color.text1(), 2)
@@ -145,18 +133,18 @@ class Algorithm_Count:
         cvzone.putTextRect(frame,str(f"Enter: {enter}"), (20,30), 1,1, color.text1(), color.text2())
         cvzone.putTextRect(frame,str(f"Exit: {exit}"), (20,60), 1,1, color.text1(), color.text2())
 
-    def mouse_clicked(self, event, x, y, flags, param):
-        if event == cv2.EVENT_LBUTTONDOWN :
-            # Clear the list and append new clicked coordinates
-            self.coordinates.clear()
-            self.coordinates.append((x, y))
+    def show_time(self, frame):
+        elapsed_time = time.time() - self.start_time
 
-    def show_coordinates(self, frame):
-        # Display clicked coordinates
-        for coords in self.coordinates:
-            #coordinates = f'Coordinates: {coords}'
-            x, y = coords
-            cvzone.putTextRect(frame,str(f"X: {x}, Y: {y}"), (120,30), 1,1, color.text1(), color.text2())
+        # Convert elapsed time to hours, minutes, seconds, and milliseconds
+        milliseconds = int(elapsed_time * 1000) #/ 6.0001
+        hours, milliseconds = divmod(milliseconds, 3600000)
+        minutes, milliseconds = divmod(milliseconds, 60000)
+        seconds = (milliseconds / 1000.0)
+
+        # Display the time in the format "hour:minute:second.millisecond"
+        time_str = "Running Time: {:02}:{:02}:{:06.3f}".format(int(hours), int(minutes), seconds)
+        cvzone.putTextRect(frame,time_str, (20,480), 1,1, color.text1(), color.text2())
 
     def counting(self, video_path):
         cap = cv2.VideoCapture(video_path)
@@ -177,14 +165,13 @@ class Algorithm_Count:
 
                 detections = self.detect(frame)
                 self.draw_boxes(frame, detections)
-                self.show_coordinates(frame)
-
 
                 out.write(frame)
+                self.show_time(frame)
                 cv2.imshow('Frame', frame)
 
             key = cv2.waitKey(1)&0xFF
-            if key == ord('q') or cv2.getWindowProperty('Frame', cv2.WND_PROP_VISIBLE) < 1: 
+            if cv2.getWindowProperty('Frame', cv2.WND_PROP_VISIBLE) < 1: 
                 break
             elif key == ord('p'):
                 self.paused = not self.paused
