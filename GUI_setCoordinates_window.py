@@ -110,7 +110,7 @@ class Ui_setCoordinatesWindow(object):
             # Cancel button or X button clicked, set self.area1 to an empty list
             self.area1 = []
             # Update the UI with the current coordinates
-            self.Area1Lbl.setText("Empty list")
+            self.Area1Lbl.setText("Empty List")
 
     def handle_popup_finished_area2(self, result):
         if result == QMessageBox.Retry:
@@ -120,7 +120,7 @@ class Ui_setCoordinatesWindow(object):
             # Cancel button or X button clicked, set self.area1 to an empty list
             self.area2 = []
             # Update the UI with the current coordinates
-            self.Area2Lbl.setText("Empty list")    
+            self.Area2Lbl.setText("Empty List")    
 
     def setupUi(self, setCoordinatesWindow):
         setCoordinatesWindow.setObjectName("setCoordinatesWindow")
